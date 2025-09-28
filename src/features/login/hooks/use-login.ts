@@ -5,7 +5,7 @@ import { convertErrorMessage } from "@/lib/auth";
 import { signIn } from "@/lib/auth-client";
 import type { LoginFormSchema } from "../schemas";
 
-export const useLogin = () => {
+export function useLogin() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,4 +34,4 @@ export const useLogin = () => {
     isLoading,
     action,
   };
-};
+}

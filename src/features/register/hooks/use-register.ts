@@ -6,7 +6,7 @@ import { signUp } from "@/lib/auth-client";
 
 import type { RegisterFormSchema } from "../schemas";
 
-export const useRegister = () => {
+export function useRegister() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,4 +36,4 @@ export const useRegister = () => {
     isLoading,
     action,
   };
-};
+}

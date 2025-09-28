@@ -5,4 +5,4 @@ export const authClient = createAuthClient({
   baseURL: "http://localhost:3030",
 });
 
-export const { signUp, signIn } = authClient;
+export const { signUp, signIn, signOut } = authClient;
