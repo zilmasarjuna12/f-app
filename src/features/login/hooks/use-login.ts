@@ -1,13 +1,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-import { type LoginFormSchema } from "../schemas";
-
 import { toast } from "sonner";
-
 import { convertErrorMessage } from "@/lib/auth";
-
 import { signIn } from "@/lib/auth-client";
+import type { LoginFormSchema } from "../schemas";
 
 export const useLogin = () => {
   const router = useRouter();
@@ -30,7 +26,7 @@ export const useLogin = () => {
           setIsLoading(false);
           toast.error(convertErrorMessage(error.error.code));
         },
-      }
+      },
     );
   };
 

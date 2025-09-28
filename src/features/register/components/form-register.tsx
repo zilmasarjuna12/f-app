@@ -2,9 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,9 +11,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { type RegisterFormSchema, registerSchema } from "../schemas";
-
+import { Input } from "@/components/ui/input";
 import { useRegister } from "../hooks/use-register";
+import { type RegisterFormSchema, registerSchema } from "../schemas";
 
 export const FormRegister = () => {
   const form = useForm<RegisterFormSchema>({

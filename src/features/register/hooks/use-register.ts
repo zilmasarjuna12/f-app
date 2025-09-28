@@ -1,12 +1,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { toast } from "sonner";
 import { convertErrorMessage } from "@/lib/auth";
 import { signUp } from "@/lib/auth-client";
 
-import { toast } from "sonner";
-
-import { type RegisterFormSchema } from "../schemas";
+import type { RegisterFormSchema } from "../schemas";
 
 export const useRegister = () => {
   const router = useRouter();
@@ -30,7 +28,7 @@ export const useRegister = () => {
           setIsLoading(false);
           toast.error(convertErrorMessage(error.error.code));
         },
-      }
+      },
     );
   };
 
