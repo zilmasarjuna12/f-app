@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { type RegisterFormSchema, registerSchema } from "../schemas";
 
+import { signUp } from "@/lib/auth-client";
+
 export const FormRegister = () => {
   const form = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerSchema),
@@ -27,7 +29,21 @@ export const FormRegister = () => {
   });
 
   const onSubmit = async (data: RegisterFormSchema) => {
-    return;
+    await signUp.email(
+      {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("User registered successfully:", data);
+        },
+        onError: (error) => {
+          console.error("Error registering user:", error);
+        },
+      }
+    );
   };
 
   return (
