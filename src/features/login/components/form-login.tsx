@@ -1,10 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
-import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,42 +9,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { type RegisterFormSchema, registerSchema } from "../schemas";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { useRegister } from "../hooks/use-register";
+import { useLogin } from "../hooks/use-login";
+import { type LoginFormSchema, loginSchema } from "../schemas";
 
-export const FormRegister = () => {
-  const form = useForm<RegisterFormSchema>({
-    resolver: zodResolver(registerSchema),
+export const FormLogin = () => {
+  const form = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
-  const { isLoading, action } = useRegister();
 
-  const onSubmit = async (data: RegisterFormSchema) => {
+  const { isLoading, action } = useLogin();
+
+  const onSubmit = async (data: LoginFormSchema) => {
     await action(data);
   };
 
   return (
     <Form {...form}>
       <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nama</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="email"
@@ -78,8 +62,8 @@ export const FormRegister = () => {
           )}
         />
 
-        <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "Loading..." : "Daftar"}
+        <Button className="w-full" type="submit">
+          {isLoading ? "Loading..." : "Masuk"}
         </Button>
       </form>
     </Form>
