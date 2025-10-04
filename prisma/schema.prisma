@@ -25,8 +25,12 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  workspaces    WorkspaceMember[]
+
   @@unique([email])
   @@map("user")
+
+  @@index([email])
 }
 
 model Session {
@@ -42,6 +46,7 @@ model Session {
 
   @@unique([token])
   @@map("session")
+  @@index([userId])
 }
 
 model Account {
@@ -61,6 +66,8 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@map("account")
+  @@unique([providerId, accountId])
+  @@index([userId])
 }
 
 model Verification {
@@ -72,4 +79,78 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+  @@index([identifier, value])
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  name      String
+
+  members   WorkspaceMember[]
+  wallets   Wallet[]
+  transactions Transaction[]
+
+  createdAt BigInt
+  updatedAt BigInt
+  DeleteAt  BigInt?
+
+  @@map("workspace")
+
+  @@index([name])
+  @@unique([id])
+}
+
+model WorkspaceMember {
+  id          String   @id @default(uuid())
+  userId      String
+  workspaceId String
+  role        String
+  createdAt   BigInt
+  updatedAt   BigInt
+  DeleteAt    BigInt?  
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@map("workspace_member")
+
+  @@index([userId, workspaceId])
+}
+
+model Wallet {
+  id          String   @id @default(uuid())
+  name        String
+  balance     Float    @default(0)
+  currency    String
+  workspaceId String
+  createdAt   BigInt
+  updatedAt   BigInt
+  DeleteAt    BigInt?
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("wallet")
+
+  @@index([workspaceId])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  amount      Float
+  currency    String
+  walletId    String
+  category    String
+  type        String
+  workspaceId String
+  createdAt   BigInt
+  updatedAt   BigInt
+  DeleteAt    BigInt?
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  wallet      Wallet    @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@map("transaction")
+  @@index([walletId])
+  @@index([workspaceId])
 }
